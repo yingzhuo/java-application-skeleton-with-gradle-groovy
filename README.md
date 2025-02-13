@@ -2,7 +2,7 @@
 
 Java Application Project with [Gradle](https://gradle.org) (Groovy DSL).
 
-Here is another skeleton of [Groovy DSL](https://github.com/yingzhuo/java-application-skeleton-with-gradle-groovy)
+Here is another skeleton of [Kotlin DSL](https://github.com/yingzhuo/java-application-skeleton-with-gradle-kt)
 
 ### Main Version Stack
 
