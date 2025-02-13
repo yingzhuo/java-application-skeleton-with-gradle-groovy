@@ -28,3 +28,44 @@ description = 'xxx'
 tasks.named('wrapper') { task ->
 	distributionUrl = "https://mirrors.cloud.tencent.com/gradle/gradle-${gradleWrapperVersion}-bin.zip"
 }
+
+tasks.register('zipJar', Zip) { task ->
+	group = 'build'
+	description = 'Zip jar(s)'
+
+	from(layout.projectDirectory.asFile) {
+		include('README.md')
+		include('LICENSE.txt')
+	}
+
+	from(layout.projectDirectory.file('build')) {
+		into("lib")
+		include('**/*.jar')
+	}
+
+	destinationDirectory = layout.projectDirectory.dir('build')
+	archiveFileName = "${rootProject.name}-${rootProject.version}.zip"
+}
+
+tasks.named('build') { task ->
+	var after = getAllLeafProjectName().collect { "${it}:build" }
+	mustRunAfter(after)
+	finalizedBy('zipJar')
+}
+
+tasks.named('clean') { task ->
+	var after = getAllLeafProjectName().collect { "${it}:clean" }
+	mustRunAfter(after)
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+List<String> getAllLeafProjectName() {
+	var list = []
+	rootProject.subprojects.forEach { level1 ->
+		level1.subprojects.forEach { level2 ->
+			list.add(":${level1.name}:${level2.name}")
+		}
+	}
+	return list;
+}
