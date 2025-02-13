@@ -1,3 +1,5 @@
+
+
 /* =====================================================================================================================
  * Java项目构建逻辑
  * =================================================================================================================== */
@@ -13,6 +15,15 @@ dependencyManagement {
 	imports {
 		mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
 	}
+}
+
+dependencies {
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// slf4j
+	implementation 'org.slf4j:slf4j-api'
 }
 
 java {
@@ -81,3 +92,4 @@ configurations.configureEach { config ->
 	exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
 	exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
 }
+

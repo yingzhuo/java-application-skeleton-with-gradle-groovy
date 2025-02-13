@@ -24,11 +24,4 @@ dependencies {
 	compileOnly 'org.springframework:spring-context-indexer'
 	annotationProcessor 'org.springframework:spring-context-indexer'
 
-	// slf4j
-	implementation 'org.slf4j:slf4j-api'
-
-	// lombok
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-
 }

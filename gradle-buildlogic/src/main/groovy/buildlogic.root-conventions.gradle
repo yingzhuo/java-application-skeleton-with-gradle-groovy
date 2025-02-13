@@ -14,6 +14,8 @@ tasks.register('zipJar', Zip) { task ->
 	group = 'build'
 	description = 'Zip jar(s)'
 
+	enabled = false
+
 	from(layout.projectDirectory) {
 		include('README.md')
 		include('LICENSE.txt')
@@ -50,5 +52,5 @@ List<String> getLeafProjectNames() {
 			list.add(":${level1.name}:${level2.name}")
 		}
 	}
-	return list;
+	return list
 }
