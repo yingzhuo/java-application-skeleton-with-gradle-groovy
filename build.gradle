@@ -14,7 +14,7 @@ ext {
 	// 核心框架版本
 	set('springBootVersion', '3.4.2')
 
-	// 微调 SpringBoot依赖中的版本号
+	// 微调SpringBoot依赖中的版本号
 	// https://docs.spring.io/spring-boot/appendix/dependency-versions/properties.html
 
 	// 项目相关配置
