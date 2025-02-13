@@ -1,0 +1,83 @@
+/* =====================================================================================================================
+ * Java项目构建逻辑
+ * =================================================================================================================== */
+
+plugins {
+	id 'java'
+	id 'java-library'
+	id 'idea'
+	id 'io.spring.dependency-management'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+	}
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+compileJava {
+	options.compilerArgs += [
+		'-Xlint:unchecked',
+		'-Xlint:cast',
+		'-Xlint:rawtypes',
+		'-Xlint:overloads',
+		'-Xlint:divzero',
+		'-Xlint:finally',
+		'-Xlint:static',
+		'-Werror'
+	]
+}
+
+jar {
+	archiveFileName = "${project.name}-${rootProject.version}.jar"
+}
+
+processResources {
+	from('src/main/java') {
+		include([
+			'**/*.properties',
+			'**/*.yml',
+			'**/*.yaml',
+			'**/*.toml',
+			'**/*.conf',
+			'**/*.xml',
+			'**/*.json',
+			'**/*.pem',
+			'**/*.p12',
+			'**/*.pfx',
+		])
+		exclude '**/.DS_Store'
+		exclude '**/.gitkeep'
+	}
+
+	from('src/main/secrets') {
+		include '**/*'
+		exclude '**/.DS_Store'
+		exclude '**/.gitkeep'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+
+idea {
+	module {
+		downloadSources = true
+		downloadJavadoc = false
+	}
+}
+
+configurations.configureEach { config ->
+	exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
+	exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+}

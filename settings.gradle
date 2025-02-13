@@ -1,0 +1,33 @@
+pluginManagement {
+	repositories {
+		mavenLocal()
+		gradlePluginPortal()
+		maven { name = '阿里云'; url = 'https://maven.aliyun.com/repository/gradle-plugin'; allowInsecureProtocol = true }
+		mavenCentral()
+		google()
+	}
+}
+
+dependencyResolutionManagement {
+	repositories {
+		mavenLocal()
+		maven { name = '阿里云'; url = 'https://maven.aliyun.com/repository/public/'; allowInsecureProtocol = true }
+		maven { name = '阿里云(Spring)'; url = 'https://maven.aliyun.com/repository/spring/'; allowInsecureProtocol = true }
+		maven { name = 'Spring(GA)'; url = 'https://repo.spring.io/release'; allowInsecureProtocol = true }
+		maven { name = 'Spring(Milestone)'; url = 'https://repo.spring.io/milestone'; allowInsecureProtocol = true }
+		maven { name = 'Spring(Snapshot)'; url = 'https://repo.spring.io/snapshot'; allowInsecureProtocol = true }
+		mavenCentral()
+		google()
+	}
+}
+
+// root project
+rootProject.name = 'java-application-skeleton-with-gradle-groovy'
+
+// build logic
+includeBuild 'gradle-buildlogic'
+
+// sub-projects
+include 'projects-application:core'
+include 'projects-library:utility'
+include 'projects-library:springboot-starter'

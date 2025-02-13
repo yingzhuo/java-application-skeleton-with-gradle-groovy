@@ -1,0 +1,21 @@
+/* =====================================================================================================================
+ * 根项目专用构建逻辑 (非根项目禁止使用此构建逻辑)
+ * =================================================================================================================== */
+
+plugins {
+	id 'base'
+	id 'buildlogic.gradle.info'
+}
+
+tasks.named('wrapper') { task ->
+	distributionUrl = "https://mirrors.cloud.tencent.com/gradle/gradle-${gradleWrapperVersion}-bin.zip"
+}
+
+information {
+	text = """
+	|本项目Gradle骨架，请按需要修改。
+	| Gradle Home     : ${gradle.gradleHomeDir}
+	| Gradle User Home: ${gradle.gradleUserHomeDir.absolutePath}
+	| Gradle Version  : ${gradle.gradleVersion}
+	""".stripMargin('|').trim()
+}
