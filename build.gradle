@@ -3,7 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.4.2' apply false
 	id 'com.gorylenko.gradle-git-properties' version '2.4.2' apply false
 
-	id 'buildlogic.root-conventions' apply true
+	id 'base' apply true
 }
 
 ext {
@@ -24,3 +24,7 @@ ext {
 group = 'com.mycompany.myproject'
 version = '1.0.0'
 description = 'xxx'
+
+tasks.named('wrapper') { task ->
+	distributionUrl = "https://mirrors.cloud.tencent.com/gradle/gradle-${gradleWrapperVersion}-bin.zip"
+}

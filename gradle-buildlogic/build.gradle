@@ -18,9 +18,5 @@ dependencies {
 
 gradlePlugin {
 	plugins {
-		informationPlugin {
-			id = 'buildlogic.gradle.info'
-			implementationClass = 'buildlogic.gradle.InformationPlugin'
-		}
 	}
 }
