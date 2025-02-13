@@ -7,50 +7,50 @@ plugins {
 }
 
 tasks.named('wrapper') { task ->
-	distributionUrl = "https://mirrors.cloud.tencent.com/gradle/gradle-${gradleWrapperVersion}-bin.zip"
+	distributionUrl = SharedFunctions.getGradleProperty(project, 'project.gradle-wrapper.distributionUrl')
 }
 
 tasks.register('zipJar', Zip) { task ->
 	group = 'build'
-	description = 'Zip jar(s)'
+	description = 'Zip jars'
 
-	enabled = false
+	enabled = SharedFunctions.getGradleProperty(project, 'project.building.zipAfterBuild', 'false') == 'true'
 
-	from(layout.projectDirectory) {
-		include('README.md')
-		include('LICENSE.txt')
+	doLast {
+		from(layout.projectDirectory) {
+			include('README.md')
+			include('LICENSE.txt')
+		}
+
+		from(layout.projectDirectory.file('build')) {
+			into('lib')
+			include('**/*.jar')
+		}
+
+		destinationDirectory = layout.projectDirectory.dir('build')
+		archiveFileName = "${rootProject.name}-${rootProject.version}.zip"
 	}
-
-	from(layout.projectDirectory.file('build')) {
-		into("lib")
-		include('**/*.jar')
-	}
-
-	destinationDirectory = layout.projectDirectory.dir('build')
-	archiveFileName = "${rootProject.name}-${rootProject.version}.zip"
 }
 
 tasks.named('build') { task ->
 	mustRunAfter(
-		getLeafProjectNames().collect { "${it}:build" }
+		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:build" }
 	)
 	finalizedBy('zipJar')
 }
 
 tasks.named('clean') { task ->
 	mustRunAfter(
-		getLeafProjectNames().collect { "${it}:clean" }
+		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:clean" }
 	)
 }
 
-// ---------------------------------------------------------------------------------------------------------------------
-
-List<String> getLeafProjectNames() {
-	final var list = []
-	rootProject.subprojects.forEach { level1 ->
-		level1.subprojects.forEach { level2 ->
-			list.add(":${level1.name}:${level2.name}")
-		}
+tasks.register('uninstallWrapper') { task ->
+	doLast {
+		delete([
+			"${rootDir}/gradle/wrapper",
+			"${rootDir}/gradlew",
+			"${rootDir}/gradlew.bat",
+		])
 	}
-	return list
 }

@@ -9,10 +9,6 @@ plugins {
 }
 
 ext {
-	// gradle wrapper版本
-	// https://gradle.org/releases
-	set('gradleWrapperVersion', '8.12.1')
-
 	// 核心框架版本
 	set('springBootVersion', '3.4.2')
 
