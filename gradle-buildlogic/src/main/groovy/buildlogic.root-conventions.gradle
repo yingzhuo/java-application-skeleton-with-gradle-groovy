@@ -1,3 +1,7 @@
+/* =====================================================================================================================
+ * 跟项目专用构建逻辑，其他子项目严禁使用本逻辑
+ * =================================================================================================================== */
+
 plugins {
 	id 'base'
 }
@@ -10,7 +14,7 @@ tasks.register('zipJar', Zip) { task ->
 	group = 'build'
 	description = 'Zip jar(s)'
 
-	from(layout.projectDirectory.asFile) {
+	from(layout.projectDirectory) {
 		include('README.md')
 		include('LICENSE.txt')
 	}
@@ -25,20 +29,22 @@ tasks.register('zipJar', Zip) { task ->
 }
 
 tasks.named('build') { task ->
-	var after = getAllLeafProjectName().collect { "${it}:build" }
-	mustRunAfter(after)
+	mustRunAfter(
+		getLeafProjectNames().collect { "${it}:build" }
+	)
 	finalizedBy('zipJar')
 }
 
 tasks.named('clean') { task ->
-	var after = getAllLeafProjectName().collect { "${it}:clean" }
-	mustRunAfter(after)
+	mustRunAfter(
+		getLeafProjectNames().collect { "${it}:clean" }
+	)
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-List<String> getAllLeafProjectName() {
-	var list = []
+List<String> getLeafProjectNames() {
+	final var list = []
 	rootProject.subprojects.forEach { level1 ->
 		level1.subprojects.forEach { level2 ->
 			list.add(":${level1.name}:${level2.name}")
