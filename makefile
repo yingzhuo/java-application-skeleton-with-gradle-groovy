@@ -4,7 +4,7 @@ usage:
 	@echo 'clean                       :     清理本项目'
 	@echo 'compile                     :     编译项目'
 	@echo 'build                       :     构建项目'
-	@echo 'install-gradle-wrapper      :     初始化 gradle-wrapper'
+	@echo 'setup-gradle-wrapper      :     初始化 gradle-wrapper'
 	@echo 'github                      :     提交文件'
 	@echo '==============================================================================================================='
 
@@ -17,7 +17,7 @@ compile:
 build:
 	@gradle -x test build
 
-install-gradle-wrapper:
+setup-gradle-wrapper:
 	@gradle wrapper
 
 github: clean
@@ -27,5 +27,5 @@ github: clean
 	@git push
 
 .PHONY: usage clean compile build \
-	install-gradle-wrapper \
+	setup-gradle-wrapper \
 	github

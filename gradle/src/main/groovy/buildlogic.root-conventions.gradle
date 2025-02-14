@@ -14,21 +14,35 @@ tasks.register('zipJar', Zip) { task ->
 	group = 'build'
 	description = 'Zip jars'
 
-	enabled = SharedFunctions.getGradlePropertyAsBoolean(project, 'project.building.zipAfterBuild')
+	enabled = SharedFunctions.getGradlePropertyAsBoolean(project, 'project.building.zipAfterBuilding')
+
+	from(layout.projectDirectory) {
+		include('README.md')
+		include('LICENSE.txt')
+	}
+
+	from(layout.projectDirectory.file('build')) {
+		into('lib')
+		include('**/*.jar')
+	}
+
+	destinationDirectory = layout.projectDirectory.dir('build')
+	archiveFileName = "${rootProject.name}-${rootProject.version}.zip"
+}
+
+tasks.register('deleteJar', DefaultTask) {
+	group = 'build'
+	description = 'Delete jar'
+
+	enabled = SharedFunctions.getGradlePropertyAsBoolean(project, 'project.building.deleteJarAfterZipping')
 
 	doLast {
-		from(layout.projectDirectory) {
-			include('README.md')
-			include('LICENSE.txt')
-		}
-
-		from(layout.projectDirectory.file('build')) {
-			into('lib')
-			include('**/*.jar')
-		}
-
-		destinationDirectory = layout.projectDirectory.dir('build')
-		archiveFileName = "${rootProject.name}-${rootProject.version}.zip"
+		delete(
+			fileTree(layout.buildDirectory) {
+				include('**/*.jar')
+				exclude('**/*.zip')
+			}
+		)
 	}
 }
 
@@ -36,7 +50,7 @@ tasks.named('build') { task ->
 	mustRunAfter(
 		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:build" }
 	)
-	finalizedBy('zipJar')
+	finalizedBy('zipJar', 'deleteJar')
 }
 
 tasks.named('clean') { task ->
