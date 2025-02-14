@@ -6,7 +6,7 @@ import org.gradle.api.Project
 abstract class SharedFunctions {
 
 	static List<String> getLeafProjectNames(Project rootProject) {
-		rootProject.allprojects
+		return rootProject.allprojects
 			.findAll {
 				it.subprojects.isEmpty()
 			}
@@ -23,6 +23,11 @@ abstract class SharedFunctions {
 			throw new IllegalArgumentException("Cannot get value of name: ${propertyName}")
 		}
 		return value
+	}
+
+	static boolean getGradlePropertyAsBoolean(Project project, String propertyName, boolean defaultValue = false) {
+		var booleanString = getGradleProperty(project, propertyName, "${defaultValue}")
+		return Boolean.valueOf(booleanString)
 	}
 
 }

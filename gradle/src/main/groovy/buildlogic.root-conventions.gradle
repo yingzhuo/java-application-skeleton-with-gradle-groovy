@@ -14,7 +14,7 @@ tasks.register('zipJar', Zip) { task ->
 	group = 'build'
 	description = 'Zip jars'
 
-	enabled = SharedFunctions.getGradleProperty(project, 'project.building.zipAfterBuild', 'false') == 'true'
+	enabled = SharedFunctions.getGradlePropertyAsBoolean(project, 'project.building.zipAfterBuild')
 
 	doLast {
 		from(layout.projectDirectory) {
