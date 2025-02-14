@@ -6,17 +6,15 @@ import org.gradle.api.Project
 abstract class SharedFunctions {
 
 	static List<String> getLeafProjectNames(Project rootProject) {
-		if (rootProject == null) {
-			return []
-		}
-
-		final var list = []
-		rootProject.subprojects.forEach { level1 ->
-			level1.subprojects.forEach { level2 ->
-				list.add(":${level1.name}:${level2.name}")
+		rootProject.allprojects
+			.findAll {
+				it.subprojects.isEmpty()
 			}
-		}
-		return list
+			.collect {
+				it.displayName
+					.replace("project '", "")
+					.replace("'", "")
+			}
 	}
 
 	static String getGradleProperty(Project project, String propertyName, String defaultPropertyValue = null) {
