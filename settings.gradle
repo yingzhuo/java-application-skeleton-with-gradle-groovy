@@ -25,7 +25,7 @@ dependencyResolutionManagement {
 rootProject.name = 'java-application-skeleton-with-gradle-groovy'
 
 // build logic
-includeBuild 'gradle-buildlogic'
+includeBuild 'gradle'
 
 // sub-projects
 include 'projects-application:core'

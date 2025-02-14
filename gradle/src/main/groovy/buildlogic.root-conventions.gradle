@@ -44,13 +44,3 @@ tasks.named('clean') { task ->
 		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:clean" }
 	)
 }
-
-tasks.register('uninstallWrapper') { task ->
-	doLast {
-		delete([
-			"${rootDir}/gradle/wrapper",
-			"${rootDir}/gradlew",
-			"${rootDir}/gradlew.bat",
-		])
-	}
-}
