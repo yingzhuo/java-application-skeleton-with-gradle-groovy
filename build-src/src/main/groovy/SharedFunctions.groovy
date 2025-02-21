@@ -36,4 +36,12 @@ abstract class SharedFunctions {
 		return Boolean.valueOf(booleanString)
 	}
 
+	static String getEnv(String name, String defaultValueIfMissing = '<no value>') {
+		return Optional.of(System.getenv(name)).orElse(defaultValueIfMissing)
+	}
+
+	static boolean getEnvAsBoolean(String name, boolean defaultValue = false) {
+		return getEnv(name, "${defaultValue}").toBoolean()
+	}
+
 }
