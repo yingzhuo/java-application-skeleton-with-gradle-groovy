@@ -87,15 +87,3 @@ tasks.named('generateGitProperties') { task ->
 		gitPropertiesName = 'git.properties'
 	}
 }
-
-tasks.named('build') { task ->
-	doLast {
-		copy {
-			from "${layout.buildDirectory.file('libs').get()}"
-			into "${rootDir}/build"
-			include '**/*.jar'
-			exclude '**/*-sources.jar'
-			exclude '**/*-javadoc.jar'
-		}
-	}
-}

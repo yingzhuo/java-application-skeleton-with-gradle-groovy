@@ -1,3 +1,78 @@
+/* =====================================================================================================================
+ * 发布用构建逻辑
+ * =================================================================================================================== */
+
 plugins {
 	id 'base'
+}
+
+ext {
+	set('distFilename', "dist-${project.name}-${rootProject.version}.tar.gz")
+}
+
+tasks.register('preDistCopy', Copy) { copy ->
+	dependsOn('build')
+
+	group = 'build'
+	description = 'Copy files to dist-directory'
+
+	from(layout.buildDirectory.dir('libs')) {
+		include('**/*.jar')
+		into('lib')
+		rename('(.*).jar', "${project.name}-${SharedFunctions.getTimestamp("yyyyMMddHHmm")}.jar")
+	}
+
+	from('src/main/dist') {
+		include('**/*.*')
+		exclude('**/.DS_Store')
+		exclude('**/.gitkeep')
+	}
+
+	into(layout.buildDirectory.dir('dist'))
+}
+
+tasks.register('preDistCompression', Tar) { tar ->
+	dependsOn('preDistCopy')
+
+	group = 'build'
+	description = 'Compress files of dist-directory'
+
+	from(layout.buildDirectory.dir('dist')) {
+		include('**/*.*')
+		exclude('**/.DS_Store')
+		exclude('**/.gitkeep')
+	}
+
+	compression = Compression.GZIP
+	destinationDirectory = file(layout.buildDirectory)
+	archiveFileName = "${distFilename}"
+}
+
+tasks.register('dist', Copy) { copy ->
+
+	dependsOn('preDistCompression')
+	finalizedBy('postDist')
+
+	group = 'build'
+	description = 'Copy dist-file to root project build directory'
+
+	from(layout.buildDirectory) {
+		include("${distFilename}")
+	}
+
+	destinationDir = file("${rootDir}/build")
+}
+
+tasks.register('postDist', Delete) { delete ->
+	group = 'build'
+	description = 'Cleanup mess of dist task'
+
+	enabled = SharedFunctions.getGradlePropertyAsBoolean(project, 'project.build.cleanupAfterDist')
+
+	delete.delete(
+		layout.buildDirectory.dir('libs'),
+		layout.buildDirectory.dir('dist'),
+		layout.buildDirectory.file("${distFilename}")
+	)
+
 }
