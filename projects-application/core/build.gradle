@@ -1,6 +1,7 @@
 plugins {
 	id 'buildlogic.java-conventions'
 	id 'buildlogic.spring-boot-conventions'
+	id 'buildlogic.dist-conventions'
 }
 
 ext {
@@ -10,8 +11,8 @@ ext {
 dependencies {
 
 	// 其他子项目
-	implementation project(':projects-library:utility')
-	implementation project(':projects-library:springboot-starter')
+	api project(':projects-library:utility')
+	api project(':projects-library:springboot-starter')
 
 	// spring-boot
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
