@@ -10,51 +10,30 @@ tasks.named('wrapper') { task ->
 	distributionUrl = SharedFunctions.getGradleProperty(project, 'project.gradle-wrapper.distributionUrl')
 }
 
-tasks.register('zipJar', Zip) { task ->
-	group = 'build'
-	description = 'Zip jars'
-
-	enabled = SharedFunctions.getGradlePropertyAsBoolean(project, 'project.building.zipAfterBuilding')
-
-	from(layout.projectDirectory) {
-		include('README.md')
-		include('LICENSE.txt')
-	}
-
-	from(layout.projectDirectory.file('build')) {
-		into('lib')
-		include('**/*.jar')
-	}
-
-	destinationDirectory = layout.projectDirectory.dir('build')
-	archiveFileName = "${rootProject.name}-${rootProject.version}.zip"
-}
-
-tasks.register('deleteJar', DefaultTask) {
-	group = 'build'
-	description = 'Delete jar'
-
-	enabled = SharedFunctions.getGradlePropertyAsBoolean(project, 'project.building.deleteJarAfterZipping')
-
-	doLast {
-		delete(
-			fileTree(layout.buildDirectory) {
-				include('**/*.jar')
-				exclude('**/*.zip')
-			}
-		)
-	}
-}
-
-tasks.named('build') { task ->
-	mustRunAfter(
-		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:build" }
-	)
-	finalizedBy('zipJar', 'deleteJar')
-}
-
 tasks.named('clean') { task ->
 	mustRunAfter(
 		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:clean" }
 	)
+	delete(layout.projectDirectory.dir("build-src/.kotlin"))
+}
+
+tasks.register('addJavaLicenseHeader') { task ->
+	group = 'license'
+	description = 'Adds a license header for the Java source files'
+
+	var header = file(layout.projectDirectory.file(".license_headers/java.txt")).getText()
+	if (!header.endsWith("\n")) {
+		header += "\n"
+	}
+
+	fileTree(layout.projectDirectory) {
+		include '**/*.java'
+	}.each { file ->
+		def content = file.text
+		if (!content.startsWith(header)) {
+			file.setText(
+				header + content
+			)
+		}
+	}
 }
