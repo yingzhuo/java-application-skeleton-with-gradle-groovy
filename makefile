@@ -2,30 +2,43 @@ usage:
 	@echo '==============================================================================================================='
 	@echo 'usage                       :     显示本菜单'
 	@echo 'clean                       :     清理本项目'
+	@echo 'clean-build-source          :     清理构建逻辑'
 	@echo 'compile                     :     编译项目'
 	@echo 'build                       :     构建项目'
-	@echo 'setup-gradle-wrapper      :     初始化 gradle-wrapper'
+	@echo 'dist                        :     发布项目'
+	@echo 'test                        :     执行单元测试'
+	@echo 'setup-gradle-wrapper        :     设置gradle-wrapper'
+	@echo 'dependencies                :     分析若干模块依赖关系'
 	@echo 'github                      :     提交文件'
 	@echo '==============================================================================================================='
 
 clean:
-	@gradle clean
+	@$(CURDIR)/gradlew --quiet -p $(CURDIR) clean
+
+clean-build-source:
+	@$(CURDIR)/gradlew --quiet -p $(CURDIR)/build-src clean
 
 compile:
-	@gradle classes
+	@$(CURDIR)/gradlew classes
 
 build:
-	@gradle -x test build
+	@$(CURDIR)/gradlew -x test build
 
-setup-gradle-wrapper:
-	@gradle wrapper
+dist:
+	@$(CURDIR)/gradlew -x test dist
 
-github: clean
+test:
+	@$(CURDIR)/gradlew test
+
+setup-gradlew-wrapper:
+	@$(CURDIR)/gradlew wrapper
+
+dependencies:
+	@$(CURDIR)/gradlew :projects-app:daemon:dependencies
+
+github:
 	@git status
 	@git add .
 	@git commit -m "$(shell /bin/date "+%F %T")"
-	@git push
 
-.PHONY: usage clean compile build \
-	setup-gradle-wrapper \
-	github
+.PHONY: usage clean clean-build-source compile build dist test setup-gradle-wrapper dependencies github

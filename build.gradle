@@ -1,7 +1,7 @@
 plugins {
 	// 插件声明
 	id 'io.spring.dependency-management' version '1.1.7' apply false
-	id 'org.springframework.boot' version '3.4.2' apply false
+	id 'org.springframework.boot' version '3.4.3' apply false
 	id 'com.gorylenko.gradle-git-properties' version '2.4.2' apply false
 
 	// 实际启用插件
@@ -10,7 +10,7 @@ plugins {
 
 ext {
 	// 核心框架版本
-	set('springBootVersion', '3.4.2')
+	set('springBootVersion', '3.4.3')
 
 	// 微调SpringBoot依赖中的版本号
 	// https://docs.spring.io/spring-boot/appendix/dependency-versions/properties.html

@@ -10,14 +10,14 @@ Here is another skeleton of [Kotlin DSL](https://github.com/yingzhuo/java-applic
 |------------|---------|
 | JDK        | 17      |
 | Gradle     | 8.12.1  |
-| SpringBoot | 3.4.2   |
+| SpringBoot | 3.4.3   |
 
 ### Gradle Plugins
 
 | Plugin                              | Version |
 |-------------------------------------|---------|
 | io.spring.dependency-management     | 1.1.7   |
-| org.springframework.boot            | 3.4.2   |
+| org.springframework.boot            | 3.4.3   |
 | com.gorylenko.gradle-git-properties | 2.4.2   |
 
 ### License
