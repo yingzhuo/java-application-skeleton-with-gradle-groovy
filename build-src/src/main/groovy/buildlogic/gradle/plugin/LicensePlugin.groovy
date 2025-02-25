@@ -33,8 +33,8 @@ class LicensePlugin implements Plugin<Project> {
 		void execute() {
 			var config = project.extensions.getByName(TASK_NAME) as Config
 			var javaHeader = config.javaHeader
-			if (!javaHeader.endsWith("\n")) {
-				javaHeader = javaHeader + "\n"
+			if (!javaHeader.endsWith('\n')) {
+				javaHeader = javaHeader + '\n'
 			}
 
 			if (javaHeader == null || javaHeader.isBlank()) {
