@@ -1,5 +1,5 @@
 /* =====================================================================================================================
- * 跟项目专用构建逻辑，其他子项目严禁使用本逻辑
+ * 根项目专用构建逻辑，其他子项目严禁使用本逻辑
  * =================================================================================================================== */
 
 plugins {
@@ -15,25 +15,4 @@ tasks.named('clean') { task ->
 		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:clean" }
 	)
 	delete(layout.projectDirectory.dir("build-src/.kotlin"))
-}
-
-tasks.register('addJavaLicenseHeader') { task ->
-	group = 'license'
-	description = 'Adds a license header for the Java source files'
-
-	var header = file(layout.projectDirectory.file(".license_headers/java.txt")).getText()
-	if (!header.endsWith("\n")) {
-		header += "\n"
-	}
-
-	fileTree(layout.projectDirectory) {
-		include '**/*.java'
-	}.each { file ->
-		def content = file.text
-		if (!content.startsWith(header)) {
-			file.setText(
-				header + content
-			)
-		}
-	}
 }
