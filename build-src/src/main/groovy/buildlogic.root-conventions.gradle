@@ -7,7 +7,7 @@ plugins {
 }
 
 tasks.named('wrapper') { task ->
-	distributionUrl = SharedFunctions.getGradleProperty(project, 'project.gradle-wrapper.distributionUrl')
+	distributionUrl = "https://mirrors.cloud.tencent.com/gradle/gradle-${getProperty('project.gradle-wrapper.version')}-bin.zip"
 }
 
 tasks.named('clean') { task ->
