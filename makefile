@@ -14,19 +14,19 @@ usage:
 	@echo '==============================================================================================================='
 
 clean:
-	@$(CURDIR)/gradlew --quiet -p $(CURDIR) clean
+	@$(CURDIR)/gradlew -q -p $(CURDIR) clean
 
 clean-build-source:
-	@$(CURDIR)/gradlew --quiet -p $(CURDIR)/build-src clean
+	@$(CURDIR)/gradlew -q -p $(CURDIR)/build-src clean
 
 compile:
 	@$(CURDIR)/gradlew classes
 
 build:
-	@$(CURDIR)/gradlew -x test build
+	@$(CURDIR)/gradlew -x 'test' -x 'check' build
 
 dist:
-	@$(CURDIR)/gradlew -x test dist
+	@$(CURDIR)/gradlew -x 'test' -x 'check' dist
 
 test:
 	@$(CURDIR)/gradlew test
