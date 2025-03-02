@@ -1,3 +1,20 @@
+/*
+ *
+ * Copyright 2022-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 package buildlogic.gradle.plugin
 
 import org.gradle.api.DefaultTask
@@ -32,22 +49,40 @@ class LicensePlugin implements Plugin<Project> {
 		@TaskAction
 		void execute() {
 			var config = project.extensions.getByName(TASK_NAME) as Config
-			var javaHeader = config.javaHeader
-			if (!javaHeader.endsWith('\n')) {
-				javaHeader = javaHeader + '\n'
+			var header = config.javaHeader
+			if (!header.endsWith('\n')) {
+				header = header + '\n'
 			}
 
-			if (javaHeader == null || javaHeader.isBlank()) {
+			if (header == null || header.isBlank()) {
 				throw new StopExecutionException('配置错误 javaHeader缺失')
 			}
 
 			project.fileTree(project.rootDir) {
-				include('**/*.java')
+				include(
+					'**/*.java',
+					'**/*.groovy',
+					'**/*.kt',
+					'**/*.scala',
+					'buildSrc/**/*.gradle',
+					'buildSrc/**/*.gradle.kts'
+				)
 			}.each { file ->
 				var content = file.text
-				if (!content.startsWith(javaHeader)) {
-					content = javaHeader + content
-					file.setText(content)
+				var changed = false
+
+				if (!content.startsWith(header)) {
+					content = header + content
+					changed = true
+				}
+
+				if (!content.endsWith('\n')) {
+					content = content + '\n'
+					changed = true
+				}
+
+				if (changed) {
+					file.text = content
 				}
 			}
 		}
