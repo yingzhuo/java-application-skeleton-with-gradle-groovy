@@ -15,15 +15,6 @@ dependencyManagement {
 	}
 }
 
-dependencies {
-	// lombok
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-
-	// slf4j
-	implementation 'org.slf4j:slf4j-api'
-}
-
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17
@@ -90,4 +81,3 @@ configurations.configureEach { config ->
 	exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
 	exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
 }
-

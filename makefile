@@ -3,6 +3,7 @@ usage:
 	@echo 'usage                       :     显示本菜单'
 	@echo 'clean                       :     清理本项目'
 	@echo 'clean-build-source          :     清理构建逻辑'
+	@echo 'clean-all                   :     清理构建逻辑和项目'
 	@echo 'compile                     :     编译项目'
 	@echo 'build                       :     构建项目'
 	@echo 'dist                        :     发布项目'
@@ -17,7 +18,9 @@ clean:
 	@$(CURDIR)/gradlew -q -p $(CURDIR) clean
 
 clean-build-source:
-	@$(CURDIR)/gradlew -q -p $(CURDIR)/build-src clean
+	@$(CURDIR)/gradlew -q -p $(CURDIR)/buildSrc clean
+
+clean-all: clean clean-build-source
 
 compile:
 	@$(CURDIR)/gradlew classes
@@ -47,7 +50,7 @@ github:
 	@git push
 
 .PHONY: usage \
-	clean clean-build-source \
+	clean clean-build-source clean-all \
 	compile build dist test \
 	dependencies \
 	setup-gradle-wrapper \

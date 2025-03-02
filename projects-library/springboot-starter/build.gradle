@@ -2,6 +2,8 @@ plugins {
 	id 'buildlogic.java-conventions'
 }
 
+apply from: "$rootDir/buildSrc/shared.gradle"
+
 dependencies {
 
 	// 其他子项目

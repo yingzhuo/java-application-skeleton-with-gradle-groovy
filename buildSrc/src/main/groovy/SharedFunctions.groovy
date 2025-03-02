@@ -6,7 +6,11 @@ import java.time.LocalDateTime
 /**
  * 构建逻辑的共享函数
  */
-abstract class SharedFunctions {
+class SharedFunctions {
+
+	private SharedFunctions() {
+		super();
+	}
 
 	static String getTimestamp(String formatPattern = 'yyyyMMddHHmmss') {
 		return LocalDateTime.now().format(formatPattern)

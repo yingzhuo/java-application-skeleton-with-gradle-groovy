@@ -2,6 +2,8 @@ plugins {
 	id 'buildlogic.java-conventions'
 }
 
+apply from: "$rootDir/buildSrc/shared.gradle"
+
 dependencies {
 
 	// spring-boot & spring
