@@ -34,8 +34,8 @@ tasks.named('clean') { task ->
 	mustRunAfter(
 		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:clean" }
 	)
-	delete(
-		layout.projectDirectory.dir('.kotlin'),
-		layout.projectDirectory.dir('build-src/.kotlin')
-	)
+//	delete(
+//		layout.projectDirectory.dir('.kotlin'),
+//		layout.projectDirectory.dir('buildSrc/.kotlin')
+//	)
 }
