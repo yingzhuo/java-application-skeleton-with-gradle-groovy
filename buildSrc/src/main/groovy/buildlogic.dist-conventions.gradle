@@ -24,11 +24,11 @@ plugins {
 }
 
 ext {
-	set('distFilename', "dist-${project.name}-${rootProject.version}.tar.gz")
+	set('distFilename', "dist-${project.name}-${rootProject.version}.tgz")
 }
 
 tasks.register('preDistCopy', Copy) { copy ->
-	dependsOn('build')
+	dependsOn('assemble')
 
 	group = 'build'
 	description = 'Copy files to dist-directory'
