@@ -66,9 +66,7 @@ tasks.register('preDistCompression', Tar) { tar ->
 }
 
 tasks.register('dist', Copy) { copy ->
-
 	dependsOn('preDistCompression')
-	finalizedBy('postDist')
 
 	group = 'build'
 	description = 'Copy dist-file to root project build directory'
@@ -78,18 +76,4 @@ tasks.register('dist', Copy) { copy ->
 	}
 
 	destinationDir = file("${rootDir}/build")
-}
-
-tasks.register('postDist', Delete) { delete ->
-	group = 'build'
-	description = 'Cleanup mess of dist task'
-
-	enabled = SharedFunctions.getGradlePropertyAsBoolean(project, 'project.build.cleanupAfterDist')
-
-	delete.delete(
-		layout.buildDirectory.dir('libs'),
-		layout.buildDirectory.dir('dist'),
-		layout.buildDirectory.file("${distFilename}")
-	)
-
 }
