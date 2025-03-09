@@ -1,0 +1,50 @@
+pluginManagement {
+	repositories {
+		mavenLocal()
+		gradlePluginPortal()
+
+		file('buildSrc/config/maven/repositories.txt')
+			.readLines()
+			.forEach { line ->
+				var mirror = line.trim()
+				if (!mirror.isBlank()) {
+					maven { url = uri(mirror); allowInsecureProtocol = true }
+				}
+			}
+
+		mavenCentral()
+		google()
+	}
+}
+
+plugins {
+	id 'io.spring.dependency-management' version "${dependencyManagementPluginVersion}" apply false
+	id 'org.springframework.boot' version "${springBootVersion}" apply false
+	id 'com.gorylenko.gradle-git-properties' version "${gitPluginVersion}" apply false
+}
+
+dependencyResolutionManagement {
+	repositories {
+		mavenLocal()
+
+		file('buildSrc/config/maven/repositories.txt')
+			.readLines()
+			.forEach { line ->
+				var mirror = line.trim()
+				if (!mirror.isBlank()) {
+					maven { url = uri(mirror); allowInsecureProtocol = true }
+				}
+			}
+
+		mavenCentral()
+		google()
+	}
+}
+
+// root project
+rootProject.name = 'java-application-skeleton-with-gradle-groovy'
+
+// sub-projects
+include 'projects-application:core'
+include 'projects-library:utility'
+include 'projects-library:springboot-starter'

@@ -1,0 +1,31 @@
+plugins {
+	id 'buildlogic.java-conventions'
+	id 'buildlogic.spring-boot-conventions'
+}
+
+apply from: "$rootDir/buildSrc/shared.gradle"
+
+dependencies {
+
+	// 其他子项目
+	api project(':projects-library:utility')
+	api project(':projects-library:springboot-starter')
+
+	// spring-boot
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	// spring-framework
+	compileOnly 'org.springframework:spring-context-indexer'
+	annotationProcessor 'org.springframework:spring-context-indexer'
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// slf4j
+	implementation 'org.slf4j:slf4j-api'
+}

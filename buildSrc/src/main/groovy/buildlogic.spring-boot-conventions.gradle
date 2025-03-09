@@ -1,0 +1,127 @@
+/*
+ *
+ * Copyright 2022-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+/* =====================================================================================================================
+ * SpringBoot应用程序构建逻辑
+ * =================================================================================================================== */
+
+plugins {
+	id 'distribution'
+	id 'org.springframework.boot'
+	id 'com.gorylenko.gradle-git-properties'
+}
+
+tasks.named('jar') { task ->
+	enabled = false
+}
+
+tasks.named('bootJar') { task ->
+	manifest {
+		attributes([
+			'Main-Class'            : 'org.springframework.boot.loader.launch.PropertiesLauncher',
+			'Implementation-Version': "${rootProject.version}",
+			'Implementation-Title'  : "${project.name}"
+		])
+	}
+
+	archiveFileName = "${project.name}-${rootProject.version}.jar"
+
+	includeTools = false
+
+	layered {
+		enabled = true
+
+		application {
+			intoLayer('spring-boot-loader') {
+				include 'org/springframework/boot/loader/**'
+			}
+			intoLayer('application')
+		}
+
+		dependencies {
+			intoLayer('application') {
+				includeProjectDependencies()
+			}
+
+			intoLayer('snapshot-dependencies') {
+				include '*:*:*SNAPSHOT'
+			}
+
+			intoLayer('dependencies')
+		}
+
+		layerOrder = ['dependencies',
+									'spring-boot-loader',
+									'snapshot-dependencies',
+									'application',
+		]
+	}
+
+	excludes = [
+		'**/.gitkeep',
+		'**/.DS_Store',
+		'**/netty-*-macos*.jar',
+		'**/netty-*-osx*.jar',
+	]
+}
+
+tasks.named('bootBuildImage') { task ->
+	environment['BP_JVM_TYPE'] = 'JRE'
+	environment['BP_JVM_VERSION'] = '17'
+	environment['BPL_JMX_ENABLED'] = 'false'
+	environment['BPL_DEBUG_ENABLED'] = 'false'
+
+	builder.set('paketobuildpacks/builder-jammy-java-tiny:latest')
+	imageName.set("yingzhuo/sbd-${project.name}:${rootProject.version}")
+	tags.set([
+		"my_company/${project.name}:latest"
+	])
+	pullPolicy = 'IF_NOT_PRESENT'
+	publish.set(false)
+}
+
+tasks.named('generateGitProperties') { task ->
+	gitProperties {
+		keys = ['git.branch', 'git.commit.id', 'git.commit.id.abbrev', 'git.commit.time', 'git.dirty']
+		dateFormat = 'yyyy-MM-dd HH:mm:ss.SSS'
+		dateFormatTimeZone = 'Asia/Shanghai'
+		failOnNoGitDirectory = false
+		gitPropertiesName = 'git.properties'
+	}
+}
+
+distributions {
+	named('main') {
+		distributionBaseName = project.name
+		contents {
+			from(tasks.bootJar) {
+				into('lib')
+				rename { String fileName ->
+					fileName.replace("-${project.version}", '')
+				}
+			}
+
+			from("$rootDir") {
+				include('README.*')
+			}
+		}
+	}
+}
+
+tasks.named('distTar') { task ->
+	enabled = false
+}
