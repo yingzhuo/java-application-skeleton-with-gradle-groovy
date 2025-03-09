@@ -20,6 +20,7 @@ pluginManagement {
 		mavenLocal()
 		gradlePluginPortal()
 
+		// maven仓库镜像
 		file('config/maven/repositories.txt')
 			.readLines()
 			.forEach { line ->
@@ -44,6 +45,7 @@ dependencyResolutionManagement {
 	repositories {
 		mavenLocal()
 
+		// maven仓库镜像
 		file('config/maven/repositories.txt')
 			.readLines()
 			.forEach { line ->

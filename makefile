@@ -37,7 +37,7 @@ add-license-header:
 	@$(CURDIR)/gradlew addLicenseHeader
 
 dependencies:
-	@$(CURDIR)/gradlew :projects-app:core:dependencies
+	@$(CURDIR)/gradlew -q :projects-app:core:dependencies
 
 github:
 	@git status

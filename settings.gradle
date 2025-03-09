@@ -3,6 +3,7 @@ pluginManagement {
 		mavenLocal()
 		gradlePluginPortal()
 
+		// maven仓库镜像
 		file('buildSrc/config/maven/repositories.txt')
 			.readLines()
 			.forEach { line ->
@@ -27,6 +28,7 @@ dependencyResolutionManagement {
 	repositories {
 		mavenLocal()
 
+		// maven仓库镜像
 		file('buildSrc/config/maven/repositories.txt')
 			.readLines()
 			.forEach { line ->
@@ -45,6 +47,30 @@ dependencyResolutionManagement {
 rootProject.name = 'java-application-skeleton-with-gradle-groovy'
 
 // sub-projects
-include 'projects-application:core'
-include 'projects-library:utility'
-include 'projects-library:springboot-starter'
+includeSubprojects(file('projects-application'))
+includeSubprojects(file('projects-library'))
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+private def includeSubprojects(File directory, FileFilter subDirFilter = new FileFilter() {
+	@Override
+	boolean accept(File f) {
+		true
+	}
+}) {
+	if (directory == null || !directory.isDirectory()) {
+		return
+	}
+
+	directory.listFiles(new FileFilter() {
+		@Override
+		boolean accept(File f) {
+			return f.isDirectory()
+		}
+	})
+		.each { subDir ->
+			if (subDirFilter.accept(subDir)) {
+				include("${directory.name}:${subDir.name}")
+			}
+		}
+}
