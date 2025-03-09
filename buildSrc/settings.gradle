@@ -44,6 +44,7 @@ dependencyResolutionManagement {
 
 	repositories {
 		mavenLocal()
+		gradlePluginPortal()
 
 		// maven仓库镜像
 		file('config/maven/repositories.txt')

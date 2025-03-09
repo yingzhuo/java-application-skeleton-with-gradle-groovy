@@ -9,7 +9,7 @@ Here is another skeleton of [Kotlin DSL](https://github.com/yingzhuo/java-applic
 | Software   | Version |
 |------------|---------|
 | JDK        | 17      |
-| Gradle     | 8.12.1  |
+| Gradle     | 8.13    |
 | SpringBoot | 3.4.3   |
 
 ### Gradle Plugins
