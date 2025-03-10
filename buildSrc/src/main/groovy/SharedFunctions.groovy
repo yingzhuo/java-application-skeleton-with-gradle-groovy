@@ -15,9 +15,10 @@
  * limitations under the License.
  *
  */
-import org.gradle.api.GradleException
 import org.gradle.api.Project
 
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 import java.time.LocalDateTime
 
 /**
@@ -45,25 +46,12 @@ class SharedFunctions {
 			}
 	}
 
-	static String getGradleProperty(Project project, String propertyName, String defaultPropertyValue = null) {
-		var value = project.providers.gradleProperty(propertyName).getOrElse(defaultPropertyValue)
-		if (value == null) {
-			throw new GradleException("Cannot get value of name: ${propertyName}")
-		}
-		return value
+	static void mkdir(File file) {
+		file.mkdir()
 	}
 
-	static boolean getGradlePropertyAsBoolean(Project project, String propertyName, boolean defaultValue = false) {
-		var booleanString = getGradleProperty(project, propertyName, "${defaultValue}")
-		return Boolean.valueOf(booleanString)
-	}
-
-	static String getEnv(String name, String defaultValueIfMissing = '<no value>') {
-		return Optional.of(System.getenv(name)).orElse(defaultValueIfMissing)
-	}
-
-	static boolean getEnvAsBoolean(String name, boolean defaultValue = false) {
-		return getEnv(name, "${defaultValue}").toBoolean()
+	static void copyFile(File src, File dest) {
+		Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING)
 	}
 
 }
