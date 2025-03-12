@@ -18,7 +18,6 @@
 pluginManagement {
 	repositories {
 		mavenLocal()
-		gradlePluginPortal()
 
 		// maven仓库镜像
 		file('config/maven/repositories.txt')
@@ -30,6 +29,7 @@ pluginManagement {
 				}
 			}
 
+		gradlePluginPortal()
 		mavenCentral()
 		google()
 	}
