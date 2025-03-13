@@ -10,7 +10,7 @@ ext {
 	// set('xxx', 'v1.0.0')
 }
 
-defaultTasks 'dist'
+defaultTasks 'distZip'
 
 allprojects {
 	group = 'com.mycompany.myproject'

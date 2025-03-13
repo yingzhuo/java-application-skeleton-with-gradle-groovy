@@ -3,8 +3,6 @@ plugins {
 	id 'buildlogic.spring-boot-conventions'
 }
 
-apply from: "$rootDir/buildSrc/shared.gradle"
-
 dependencies {
 
 	// 其他子项目
