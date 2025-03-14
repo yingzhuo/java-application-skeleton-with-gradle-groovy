@@ -18,9 +18,6 @@
 /* =====================================================================================================================
  * Java项目构建逻辑
  * =================================================================================================================== */
-import java.nio.file.Files
-import java.nio.file.StandardCopyOption
-
 plugins {
 	id 'java'
 	id 'java-library'
@@ -30,16 +27,18 @@ plugins {
 
 dependencyManagement {
 	imports {
-		mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+		mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") {
+			bomProperties([:])
+		}
 	}
 }
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.toVersion("$javaVersion")
+	targetCompatibility = JavaVersion.toVersion("$javaVersion")
 
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion = JavaLanguageVersion.of("$javaVersion")
 	}
 }
 
@@ -92,7 +91,7 @@ test {
 idea {
 	module {
 		downloadSources = true
-		downloadJavadoc = false
+		downloadJavadoc = true
 	}
 }
 
