@@ -21,7 +21,6 @@
 plugins {
 	id 'java'
 	id 'java-library'
-	id 'idea'
 	id 'io.spring.dependency-management'
 }
 
@@ -72,6 +71,7 @@ processResources {
 			'**/*.pem',
 			'**/*.p12',
 			'**/*.pfx',
+			'**/*.lua'
 		])
 		exclude '**/.DS_Store'
 		exclude '**/.gitkeep'
@@ -86,13 +86,6 @@ processResources {
 
 test {
 	useJUnitPlatform()
-}
-
-idea {
-	module {
-		downloadSources = true
-		downloadJavadoc = true
-	}
 }
 
 configurations.configureEach { config ->
