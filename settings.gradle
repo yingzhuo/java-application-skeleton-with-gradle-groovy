@@ -3,13 +3,12 @@ pluginManagement {
 		mavenLocal()
 		gradlePluginPortal()
 
-		// maven仓库镜像
 		file('buildSrc/config/maven/repositories.txt')
 			.readLines()
 			.forEach { line ->
-				var mirror = line.trim()
-				if (!mirror.isBlank()) {
-					maven { url = uri(mirror); allowInsecureProtocol = true }
+				line = line.trim()
+				if (!line.isBlank() && !line.startsWith('#')) {
+					maven { url = uri(line.trim()); allowInsecureProtocol = true }
 				}
 			}
 
@@ -28,13 +27,12 @@ dependencyResolutionManagement {
 	repositories {
 		mavenLocal()
 
-		// maven仓库镜像
 		file('buildSrc/config/maven/repositories.txt')
 			.readLines()
 			.forEach { line ->
-				var mirror = line.trim()
-				if (!mirror.isBlank()) {
-					maven { url = uri(mirror); allowInsecureProtocol = true }
+				line = line.trim()
+				if (!line.isBlank() && !line.startsWith('#')) {
+					maven { url = uri(line.trim()); allowInsecureProtocol = true }
 				}
 			}
 
