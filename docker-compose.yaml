@@ -1,0 +1,10 @@
+name: "Skeleton"
+services:
+  playground:
+    image: yingzhuo/java-application-skeleton-with-gradle-groovy:latest
+    restart: always
+    container_name: skeleton
+    ports:
+      - "8080:8080"
+    command:
+      - "--spring.profiles.active=prod"

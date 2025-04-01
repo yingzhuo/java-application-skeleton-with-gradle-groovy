@@ -130,6 +130,7 @@ tasks.named('distTar') { task ->
 
 tasks.register('prepareDockerContext', Copy) { task ->
 	dependsOn 'assemble'
+
 	from('src/main/docker') {
 		include('**/Dockerfile', '**/.dockerignore', '**/startup.sh')
 	}
