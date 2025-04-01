@@ -81,19 +81,6 @@ tasks.named('bootJar') { task ->
 
 tasks.named('bootBuildImage') { task ->
 	enabled = false
-
-	environment['BP_JVM_TYPE'] = 'JRE'
-	environment['BP_JVM_VERSION'] = '17'
-	environment['BPL_JMX_ENABLED'] = 'false'
-	environment['BPL_DEBUG_ENABLED'] = 'false'
-
-	builder.set('paketobuildpacks/builder-jammy-java-tiny:latest')
-	imageName.set("yingzhuo/sbd-${project.name}:${rootProject.version}")
-	tags.set([
-		"my_company/${project.name}:latest"
-	])
-	pullPolicy = 'IF_NOT_PRESENT'
-	publish.set(false)
 }
 
 tasks.named('generateGitProperties') { task ->
