@@ -1,10 +1,11 @@
 plugins {
 	id 'buildlogic.java-conventions'
 	id 'buildlogic.spring-boot-conventions'
+	id 'buildlogic.docker-conventions'
 }
 
 ext {
-	set('dockerTag', 'yingzhuo/java-application-skeleton-with-gradle-groovy:latest')
+	set('dockerImageTag', 'yingzhuo/java-application-skeleton-with-gradle-groovy:latest')
 }
 
 dependencies {
