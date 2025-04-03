@@ -129,6 +129,7 @@ tasks.register('prepareDockerContext', Copy) { task ->
 
 tasks.register('buildDockerImage', Exec) { task ->
 	dependsOn 'prepareDockerContext'
+	finalizedBy 'cleanPrepareDockerContext'
 
 	commandLine('bash', "$rootDir/buildSrc/config/docker/build-image.sh", "$dockerTag")
 	workingDir(layout.buildDirectory.dir('docker-context'))
