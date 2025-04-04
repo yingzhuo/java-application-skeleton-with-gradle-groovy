@@ -64,8 +64,8 @@ class LicensePlugin implements Plugin<Project> {
 					'**/*.groovy',
 					'**/*.kt',
 					'**/*.scala',
-					'buildSrc/**/*.gradle',
-					'buildSrc/**/*.gradle.kts'
+					//'buildSrc/**/*.gradle',
+					//'buildSrc/**/*.gradle.kts'
 				)
 			}.each { file ->
 				var content = file.text
