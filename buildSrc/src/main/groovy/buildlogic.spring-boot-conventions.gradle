@@ -15,8 +15,8 @@ tasks.named('bootJar') { task ->
 	manifest {
 		attributes([
 			'Main-Class'            : 'org.springframework.boot.loader.launch.PropertiesLauncher',
-			'Implementation-Version': "${rootProject.version}",
-			'Implementation-Title'  : "${project.name}"
+			'Implementation-Version': project.version,
+			'Implementation-Title'  : project.name
 		])
 	}
 
@@ -91,6 +91,10 @@ distributions {
 			}
 		}
 	}
+}
+
+tasks.named('distZip') { task ->
+	enabled = true
 }
 
 tasks.named('distTar') { task ->
