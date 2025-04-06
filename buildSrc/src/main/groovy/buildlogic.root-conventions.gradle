@@ -31,15 +31,16 @@ tasks.register('github', Exec) { task ->
 	commandLine('bash', "$rootDir/buildSrc/config/github/push.sh")
 }
 
-tasks.named('clean') { task ->
-	mustRunAfter(
-		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:clean" }
-	)
-	delete(
-		layout.projectDirectory.dir('.kotlin'),
-		layout.projectDirectory.dir('buildSrc/.kotlin')
-	)
-}
+//tasks.named('clean') { task ->
+//	mustRunAfter(
+//		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:clean" }
+//	)
+//
+//	delete(
+//		layout.projectDirectory.dir('.kotlin'),
+//		layout.projectDirectory.dir('buildSrc/.kotlin')
+//	)
+//}
 
 addLicenseHeader {
 	javaHeader = '''
