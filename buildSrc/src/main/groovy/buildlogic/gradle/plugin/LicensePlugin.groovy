@@ -61,9 +61,9 @@ class LicensePlugin implements Plugin<Project> {
 			project.fileTree(project.rootDir) {
 				include(
 					'**/*.java',
-					'**/*.groovy',
-					'**/*.kt',
-					'**/*.scala',
+					//'**/*.groovy',
+					//'**/*.kt',
+					//'**/*.scala',
 					//'buildSrc/**/*.gradle',
 					//'buildSrc/**/*.gradle.kts'
 				)

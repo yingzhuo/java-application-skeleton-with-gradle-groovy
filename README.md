@@ -18,7 +18,7 @@ Here is another skeleton of [Kotlin DSL](https://github.com/yingzhuo/java-applic
 |-------------------------------------|---------|
 | io.spring.dependency-management     | 1.1.7   |
 | org.springframework.boot            | 3.4.4   |
-| com.gorylenko.gradle-git-properties | 2.5.0   |
+| com.gorylenko.gradle-git-properties | 2.4.2   |
 
 ### License
 
