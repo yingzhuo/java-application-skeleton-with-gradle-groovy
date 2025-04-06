@@ -18,9 +18,11 @@ tasks.register('removeWrapper', Delete) { task ->
 	description = 'Remove Gradle wrapper files.'
 
 	followSymlinks = true
-	delete "$rootDir/gradlew"
-	delete "$rootDir/gradlew.bat"
-	delete "$rootDir/gradle/wrapper"
+	delete fileTree(rootDir) {
+		include 'gradlew'
+		include 'gradlew.bat'
+		include 'gradle/wrapper/'
+	}
 }
 
 tasks.register('github', Exec) { task ->
@@ -31,16 +33,16 @@ tasks.register('github', Exec) { task ->
 	commandLine('bash', "$rootDir/buildSrc/config/github/push.sh")
 }
 
-//tasks.named('clean') { task ->
-//	mustRunAfter(
-//		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:clean" }
-//	)
-//
-//	delete(
-//		layout.projectDirectory.dir('.kotlin'),
-//		layout.projectDirectory.dir('buildSrc/.kotlin')
-//	)
-//}
+tasks.named('clean') { task ->
+	mustRunAfter(
+		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:clean" }
+	)
+
+	delete fileTree(rootDir) {
+		include '**/.DS_Store'
+		include '**/*.log'
+	}
+}
 
 addLicenseHeader {
 	javaHeader = '''
