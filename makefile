@@ -31,7 +31,7 @@ test:
 	@$(CURDIR)/gradlew 'test'
 
 setup-gradlew-wrapper:
-	@$(CURDIR)/gradlew 'wrapper'
+	@gradle 'wrapper'
 
 add-license-header:
 	@$(CURDIR)/gradlew 'addLicenseHeader'
