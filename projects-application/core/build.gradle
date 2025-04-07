@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
 	id 'buildlogic.java-conventions'
 	id 'buildlogic.spring-boot-conventions'
@@ -31,4 +33,10 @@ dependencies {
 
 	// slf4j
 	implementation 'org.slf4j:slf4j-api'
+}
+
+processResources {
+	filter ReplaceTokens, tokens: [
+		'applicationName': project.name
+	]
 }
