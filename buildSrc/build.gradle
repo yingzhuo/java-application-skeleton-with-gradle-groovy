@@ -2,20 +2,11 @@ plugins {
 	id 'groovy-gradle-plugin'
 }
 
-try (var inputStream = file("${rootDir}/../gradle.properties").newInputStream()) {
+try (var reader = file("${rootDir}/../gradle.properties").newReader()) {
 	var properties = new Properties()
-	properties.load(inputStream)
+	properties.load(reader)
 	properties.forEach(ext::set)
 }
 
 dependencies {
-}
-
-gradlePlugin {
-	plugins {
-		create('LicensePlugin') {
-			id = 'buildlogic.license'
-			implementationClass = 'buildlogic.gradle.plugin.LicensePlugin'
-		}
-	}
 }

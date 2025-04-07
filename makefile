@@ -7,7 +7,6 @@ usage:
 	@echo 'build                       :     构建项目'
 	@echo 'docker                      :     构建docker镜像'
 	@echo 'test                        :     执行单元测试'
-	@echo 'add-license-header          :     为java文件加入许可证头信息'
 	@echo 'setup-gradle-wrapper        :     设置gradle-wrapper'
 	@echo 'github                      :     提交文件'
 	@echo '==============================================================================================================='
@@ -33,9 +32,6 @@ test:
 setup-gradlew-wrapper:
 	@gradle 'wrapper'
 
-add-license-header:
-	@$(CURDIR)/gradlew 'addLicenseHeader'
-
 github:
 	@$(CURDIR)/gradlew 'github'
 
@@ -43,5 +39,4 @@ github:
 	clean clean-buildsrc \
 	compile build docker test \
 	setup-gradle-wrapper \
-	add-license-header \
 	github
