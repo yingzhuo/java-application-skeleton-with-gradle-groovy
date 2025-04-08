@@ -38,12 +38,12 @@ compileJava {
 }
 
 jar {
-	archiveFileName = "${project.name}-${rootProject.version}.jar"
+	archiveFileName = "${project.name}-${project.version}.jar"
 }
 
 processResources {
 	from('src/main/java') {
-		include([
+		include(
 			'**/*.properties',
 			'**/*.yml',
 			'**/*.yaml',
@@ -55,7 +55,7 @@ processResources {
 			'**/*.p12',
 			'**/*.pfx',
 			'**/*.lua'
-		])
+		)
 		exclude '**/.DS_Store'
 		exclude '**/.gitkeep'
 	}
