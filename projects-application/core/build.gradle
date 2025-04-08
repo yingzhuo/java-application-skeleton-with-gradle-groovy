@@ -36,7 +36,7 @@ dependencies {
 }
 
 processResources {
-	filter ReplaceTokens, tokens: [
-		'applicationName': project.name
+	filter ReplaceTokens, 'tokens': [
+		'APPLICATION_NAME': 'java-application-skeleton',
 	]
 }

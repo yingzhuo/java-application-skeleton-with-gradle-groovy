@@ -1,5 +1,3 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 /* =====================================================================================================================
  * Java项目构建逻辑
  * =================================================================================================================== */
@@ -58,12 +56,6 @@ processResources {
 			'**/*.pfx',
 			'**/*.lua'
 		])
-		exclude '**/.DS_Store'
-		exclude '**/.gitkeep'
-	}
-
-	from('src/main/secrets') {
-		include '**/*'
 		exclude '**/.DS_Store'
 		exclude '**/.gitkeep'
 	}
