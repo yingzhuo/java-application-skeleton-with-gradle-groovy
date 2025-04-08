@@ -18,9 +18,9 @@ pluginManagement {
 }
 
 plugins {
-	id 'io.spring.dependency-management' version "${dependencyManagementPluginVersion}" apply false
-	id 'org.springframework.boot' version "${springBootVersion}" apply false
-	id 'com.gorylenko.gradle-git-properties' version "${gitPluginVersion}" apply false
+	id 'io.spring.dependency-management' version "$dependencyManagementPluginVersion" apply false
+	id 'org.springframework.boot' version "$springBootVersion" apply false
+	id 'com.gorylenko.gradle-git-properties' version "$gitPluginVersion" apply false
 }
 
 dependencyResolutionManagement {
@@ -45,12 +45,18 @@ dependencyResolutionManagement {
 rootProject.name = 'java-application-skeleton-with-gradle-groovy'
 
 // sub-projects
-includeSubprojects(file('projects-application'))
-includeSubprojects(file('projects-library'))
+['projects-application', 'projects-library'].forEach { dir ->
+	includeSubprojects(dir)
+}
 
 // tools
-private def includeSubprojects(File directory) {
-	if (directory == null || !directory.isDirectory()) {
+private def includeSubprojects(String dir) {
+	if (dir == null) {
+		return
+	}
+
+	var directory = new File(dir)
+	if (!directory.isDirectory()) {
 		return
 	}
 
