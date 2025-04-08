@@ -17,6 +17,7 @@ tasks.register('removeWrapper', Delete) { task ->
 	description = 'Remove Gradle wrapper files.'
 
 	followSymlinks = true
+
 	delete fileTree(rootDir) {
 		include 'gradlew'
 		include 'gradlew.bat'
