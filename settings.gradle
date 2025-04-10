@@ -45,22 +45,13 @@ dependencyResolutionManagement {
 rootProject.name = 'java-application-skeleton-with-gradle-groovy'
 
 // sub-projects
-['projects-application', 'projects-library'].forEach { dir ->
-	includeSubprojects(dir)
-}
-
-// tools
-private def includeSubprojects(String dir) {
-	if (dir == null) {
+['projects-application', 'projects-library'].forEach {
+	var dir = file(it)
+	if (!dir.isDirectory()) {
 		return
 	}
 
-	var directory = new File(dir)
-	if (!directory.isDirectory()) {
-		return
-	}
-
-	directory.listFiles(new FileFilter() {
+	dir.listFiles(new FileFilter() {
 		@Override
 		boolean accept(File f) {
 			return f.isDirectory()
@@ -69,7 +60,7 @@ private def includeSubprojects(String dir) {
 		.each { subDir ->
 			for (var subSubFile : subDir.listFiles()) {
 				if (subSubFile.isFile() || subSubFile.name == 'build.gradle') {
-					include("${directory.name}:${subDir.name}")
+					include("${dir.name}:${subDir.name}")
 					break
 				}
 			}
