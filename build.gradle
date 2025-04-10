@@ -9,7 +9,7 @@ ext {
 	// set('xxx', 'v1.0.0')
 }
 
-defaultTasks 'distZip'
+defaultTasks 'classes'
 
 allprojects {
 	group = 'com.mycompany.myproject'

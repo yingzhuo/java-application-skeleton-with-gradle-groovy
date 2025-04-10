@@ -11,10 +11,12 @@ tasks.register('prepareDockerContext', Copy) { task ->
 	from('src/main/docker') {
 		include('**/*')
 	}
+
 	from(layout.buildDirectory.dir('libs')) {
 		include('**/*.jar')
 		exclude('**/*-javadoc.jar', '**/*-sources.jar')
 	}
+
 	into(layout.buildDirectory.dir('docker-context'))
 }
 
