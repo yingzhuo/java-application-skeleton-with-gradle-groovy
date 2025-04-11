@@ -8,6 +8,7 @@ usage:
 	@echo 'docker                      :     构建docker镜像'
 	@echo 'test                        :     执行单元测试'
 	@echo 'setup-gradle-wrapper        :     设置gradle-wrapper'
+	@echo 'remove-gradlew-wrapper      :     删除gradle-wrapper'
 	@echo 'github                      :     提交文件'
 	@echo '==============================================================================================================='
 
@@ -32,11 +33,14 @@ test:
 setup-gradlew-wrapper:
 	@gradle 'wrapper'
 
+remove-gradlew-wrapper:
+	@$(CURDIR)/gradlew 'removeWrapper'
+
 github:
 	@$(CURDIR)/gradlew 'github'
 
 .PHONY: usage \
 	clean clean-buildsrc \
 	compile build docker test \
-	setup-gradle-wrapper \
+	setup-gradle-wrapper remove-gradlew-wrapper \
 	github

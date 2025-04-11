@@ -68,11 +68,11 @@ tasks.named('bootBuildImage') { task ->
 tasks.named('generateGitProperties') { task ->
 	gitProperties {
 		dotGitDirectory = file("$rootDir/.git")
+		gitPropertiesName = 'git.properties'
 		keys = ['git.branch', 'git.commit.id', 'git.commit.id.abbrev', 'git.commit.time', 'git.dirty']
 		dateFormat = 'yyyy-MM-dd HH:mm:ss.SSS'
 		dateFormatTimeZone = 'Asia/Shanghai'
 		failOnNoGitDirectory = false
-		gitPropertiesName = 'git.properties'
 	}
 }
 
