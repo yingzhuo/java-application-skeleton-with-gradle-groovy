@@ -1,0 +1,16 @@
+[Unit]
+Description=My Great Application
+Documentation=https://www.myapp.com
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+Environment="JAVA_HOME=/opt/java-home-17"
+ExecStart=/path/to/app/startup.sh
+KillSignal=15
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

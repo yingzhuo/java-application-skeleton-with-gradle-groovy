@@ -1,0 +1,103 @@
+/* =====================================================================================================================
+ * SpringBoot应用程序构建逻辑
+ * =================================================================================================================== */
+plugins {
+	id 'distribution'
+	id 'org.springframework.boot'
+	id 'com.gorylenko.gradle-git-properties'
+}
+
+tasks.named('jar') { task ->
+	enabled = false
+}
+
+tasks.named('bootJar') { task ->
+	manifest {
+		attributes([
+			'Main-Class'            : 'org.springframework.boot.loader.launch.PropertiesLauncher',
+			'Implementation-Version': project.version,
+			'Implementation-Title'  : project.name,
+		])
+	}
+
+	archiveFileName = "${project.name}-${project.version}.jar"
+
+	includeTools = false
+
+	layered {
+		enabled = true
+
+		application {
+			intoLayer('spring-boot-loader') {
+				include 'org/springframework/boot/loader/**'
+			}
+			intoLayer('application')
+		}
+
+		dependencies {
+			intoLayer('application') {
+				includeProjectDependencies()
+			}
+
+			intoLayer('snapshot-dependencies') {
+				include '*:*:*SNAPSHOT'
+			}
+
+			intoLayer('dependencies')
+		}
+
+		layerOrder = ['dependencies',
+									'spring-boot-loader',
+									'snapshot-dependencies',
+									'application',
+		]
+	}
+
+	excludes = [
+		'**/.gitkeep',
+		'**/.DS_Store',
+		'**/netty-*-macos*.jar',
+		'**/netty-*-osx*.jar',
+	]
+}
+
+tasks.named('bootBuildImage') { task ->
+	enabled = false
+}
+
+tasks.named('generateGitProperties') { task ->
+	gitProperties {
+		dotGitDirectory = file("$rootDir/.git")
+		gitPropertiesName = 'git.properties'
+		keys = ['git.branch', 'git.commit.id', 'git.commit.id.abbrev', 'git.commit.time', 'git.dirty']
+		dateFormat = 'yyyy-MM-dd HH:mm:ss.SSS'
+		dateFormatTimeZone = 'Asia/Shanghai'
+		failOnNoGitDirectory = false
+	}
+}
+
+distributions {
+	named('main') {
+		distributionBaseName = project.name
+		contents {
+			from(tasks.bootJar) {
+				into('lib')
+				rename { String fileName ->
+					fileName.replace("-${project.version}", '')
+				}
+			}
+
+			from("$rootDir") {
+				include('README.*')
+			}
+		}
+	}
+}
+
+tasks.named('distZip') { task ->
+	enabled = true
+}
+
+tasks.named('distTar') { task ->
+	enabled = false
+}

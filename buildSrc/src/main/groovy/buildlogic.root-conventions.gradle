@@ -1,0 +1,45 @@
+/* =====================================================================================================================
+ * 根项目专用构建逻辑，其他子项目严禁使用本逻辑
+ * =================================================================================================================== */
+plugins {
+	id 'base'
+}
+
+tasks.named('wrapper') { task ->
+	// 国内镜像两个个比较好的选择
+	// (1) 腾讯云: https://mirrors.cloud.tencent.com/gradle/gradle-$gradleWrapperVersion-bin.zip
+	// (2) 华为云: https://mirrors.huaweicloud.com/gradle/gradle-$gradleWrapperVersion-bin.zip
+	distributionUrl = "https://mirrors.cloud.tencent.com/gradle/gradle-$gradleWrapperVersion-bin.zip"
+}
+
+tasks.register('removeWrapper', Delete) { task ->
+	group = 'build setup'
+	description = 'Remove Gradle wrapper files.'
+
+	followSymlinks = true
+
+	delete fileTree(rootDir) {
+		include 'gradlew'
+		include 'gradlew.bat'
+		include 'gradle/wrapper/'
+	}
+}
+
+tasks.register('github', Exec) { task ->
+	group = 'github'
+	description = 'Commit and push codes to github.'
+
+	workingDir("$rootDir")
+	commandLine('bash', "$rootDir/buildSrc/config/github/push.sh")
+}
+
+tasks.named('clean') { task ->
+	mustRunAfter(
+		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:clean" }
+	)
+
+	delete fileTree(rootDir) {
+		include '**/.DS_Store'
+		include '**/*.log'
+	}
+}

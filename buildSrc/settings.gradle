@@ -1,0 +1,45 @@
+pluginManagement {
+	repositories {
+		mavenLocal()
+
+		file('config/maven/repositories.txt')
+			.readLines()
+			.forEach { line ->
+				line = line.trim()
+				if (!line.isBlank() && !line.startsWith('#')) {
+					maven { url = uri(line.trim()); allowInsecureProtocol = true }
+				}
+			}
+
+		gradlePluginPortal()
+		mavenCentral()
+		google()
+	}
+}
+
+dependencyResolutionManagement {
+	versionCatalogs {
+		create('libs', {
+			from(files('../gradle/libs.versions.toml'))
+		})
+	}
+
+	repositories {
+		mavenLocal()
+		gradlePluginPortal()
+
+		file('config/maven/repositories.txt')
+			.readLines()
+			.forEach { line ->
+				line = line.trim()
+				if (!line.isBlank() && !line.startsWith('#')) {
+					maven { url = uri(line.trim()); allowInsecureProtocol = true }
+				}
+			}
+
+		mavenCentral()
+		google()
+	}
+
+	repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+}

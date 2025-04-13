@@ -1,0 +1,12 @@
+plugins {
+	id 'groovy-gradle-plugin'
+}
+
+try (var reader = file("$rootDir/../gradle.properties").newReader('ISO-8859-1')) {
+	var properties = new Properties()
+	properties.load(reader)
+	properties.forEach(ext::set)
+}
+
+dependencies {
+}

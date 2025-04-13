@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: "@APPLICATION_NAME@"
+logging:
+  level:
+    root: info
+    com.mycompany.myproject: trace
