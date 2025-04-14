@@ -45,7 +45,7 @@ dependencyResolutionManagement {
 rootProject.name = 'java-application-skeleton-with-gradle-groovy'
 
 // sub-projects
-['projects-application', 'projects-library'].forEach {
+['projects-app', 'projects-lib'].forEach {
 	var firstLevelDir = file(it)
 
 	// 目录有误
