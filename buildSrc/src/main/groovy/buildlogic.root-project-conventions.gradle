@@ -1,6 +1,8 @@
 /* =====================================================================================================================
  * 根项目专用构建逻辑，其他子项目严禁使用本逻辑
  * =================================================================================================================== */
+import static SharedFunctions.*
+
 plugins {
 	id 'base'
 }
@@ -35,7 +37,7 @@ tasks.register('github', Exec) { task ->
 
 tasks.named('clean') { task ->
 	mustRunAfter(
-		SharedFunctions.getLeafProjectNames(rootProject).collect { "${it}:clean" }
+		getLeafProjectNames(rootProject).collect { "${it}:clean" }
 	)
 
 	delete fileTree(rootDir) {

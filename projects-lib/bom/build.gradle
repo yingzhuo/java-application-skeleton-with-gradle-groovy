@@ -1,0 +1,16 @@
+plugins {
+	id 'java-platform'
+}
+
+description = 'BOM for libs.'
+
+dependencies {
+	constraints {
+		rootProject.findProject('projects-lib').subprojects { subproject ->
+			var subprojectName = subproject.name
+			if (subprojectName != 'bom') {
+				api(subproject)
+			}
+		}
+	}
+}
