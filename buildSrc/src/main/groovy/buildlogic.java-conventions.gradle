@@ -1,6 +1,8 @@
 /* =====================================================================================================================
  * Java项目构建逻辑
  * =================================================================================================================== */
+import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
 	id 'java'
 	id 'java-library'
@@ -21,8 +23,8 @@ java {
 		languageVersion = JavaLanguageVersion.of("$javaVersion")
 	}
 
-	//withSourcesJar()
-	//withJavadocJar()
+	withSourcesJar()
+	withJavadocJar()
 }
 
 compileJava {
@@ -60,6 +62,22 @@ processResources {
 		exclude '**/.DS_Store'
 		exclude '**/.gitkeep'
 	}
+
+	filter(ReplaceTokens, 'tokens': [
+		'APP_GROUP'  : project.group,
+		'APP_NAME'   : project.name,
+		'APP_VERSION': project.version,
+	])
+	filteringCharset = 'UTF-8'
+}
+
+processTestResources {
+	filter(ReplaceTokens, 'tokens': [
+		'APP_GROUP'  : project.group,
+		'APP_NAME'   : project.name,
+		'APP_VERSION': project.version,
+	])
+	filteringCharset = 'UTF-8'
 }
 
 test {
