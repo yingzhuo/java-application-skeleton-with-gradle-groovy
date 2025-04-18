@@ -5,7 +5,8 @@ usage:
 	@echo 'clean-buildsrc              :     清理构建逻辑'
 	@echo 'compile                     :     编译项目'
 	@echo 'build                       :     构建项目'
-	@echo 'docker                      :     构建docker镜像'
+	@echo 'build-docker                :     构建docker镜像'
+	@echo 'remove-docker               :     删除docker镜像'
 	@echo 'test                        :     执行单元测试'
 	@echo 'setup-gradle-wrapper        :     设置gradle-wrapper'
 	@echo 'remove-gradlew-wrapper      :     删除gradle-wrapper'
@@ -24,8 +25,11 @@ compile:
 build:
 	@$(CURDIR)/gradlew 'build' -x 'test' -x 'check'
 
-docker:
+build-docker:
 	@$(CURDIR)/gradlew 'buildDockerImage' -x 'test' -x 'check'
+
+remove-docker:
+	@$(CURDIR)/gradlew 'removeDockerImage' -x 'test' -x 'check'
 
 test:
 	@$(CURDIR)/gradlew 'test'
@@ -41,6 +45,7 @@ github:
 
 .PHONY: usage \
 	clean clean-buildsrc \
-	compile build docker test \
+	compile build test \
+	build-docker remove-docker \
 	setup-gradle-wrapper remove-gradlew-wrapper \
 	github

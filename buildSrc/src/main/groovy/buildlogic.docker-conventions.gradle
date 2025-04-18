@@ -6,7 +6,7 @@ plugins {
 }
 
 tasks.register('prepareDockerContext', Copy) { task ->
-	dependsOn 'assemble'
+	dependsOn 'bootJar'
 
 	from('src/main/docker') {
 		include('**/*')
@@ -17,13 +17,18 @@ tasks.register('prepareDockerContext', Copy) { task ->
 		exclude('**/*-javadoc.jar', '**/*-sources.jar')
 	}
 
-	into(layout.buildDirectory.dir('docker-context'))
+	into(layout.buildDirectory.dir('dockerContext'))
 }
 
 tasks.register('buildDockerImage', Exec) { task ->
 	dependsOn 'prepareDockerContext'
-	finalizedBy 'cleanPrepareDockerContext'
+	//finalizedBy 'cleanPrepareDockerContext'
 
 	commandLine('bash', "$rootDir/buildSrc/config/docker/build-image.sh", "$dockerImageTag")
-	workingDir(layout.buildDirectory.dir('docker-context'))
+	workingDir(layout.buildDirectory.dir('dockerContext'))
+}
+
+tasks.register('removeDockerImage', Exec) { task ->
+	finalizedBy 'cleanPrepareDockerContext'
+	commandLine('bash', "$rootDir/buildSrc/config/docker/remove-image.sh", "$dockerImageTag")
 }
