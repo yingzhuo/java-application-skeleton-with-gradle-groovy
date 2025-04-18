@@ -6,6 +6,9 @@ plugins {
 }
 
 tasks.register('prepareDockerContext', Copy) { task ->
+	group = 'docker'
+	description = 'prepare docker context directory.'
+
 	dependsOn 'bootJar'
 
 	from('src/main/docker') {
@@ -21,6 +24,9 @@ tasks.register('prepareDockerContext', Copy) { task ->
 }
 
 tasks.register('buildDockerImage', Exec) { task ->
+	group = 'docker'
+	description = 'build docker image.'
+
 	dependsOn 'prepareDockerContext'
 	//finalizedBy 'cleanPrepareDockerContext'
 
@@ -29,6 +35,9 @@ tasks.register('buildDockerImage', Exec) { task ->
 }
 
 tasks.register('removeDockerImage', Exec) { task ->
+	group = 'docker'
+	description = 'remove docker image.'
+
 	finalizedBy 'cleanPrepareDockerContext'
 	commandLine('bash', "$rootDir/buildSrc/config/docker/remove-image.sh", "$dockerImageTag")
 }
