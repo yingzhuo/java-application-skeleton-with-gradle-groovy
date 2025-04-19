@@ -29,7 +29,7 @@ build-docker:
 	@$(CURDIR)/gradlew 'buildDockerImage' -x 'test' -x 'check'
 
 remove-docker:
-	@$(CURDIR)/gradlew 'removeDockerImage' -x 'test' -x 'check'
+	@$(CURDIR)/gradlew 'removeDockerImage'
 
 test:
 	@$(CURDIR)/gradlew 'test'
